@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201503090908177_createCustomer.Designer.cs">
       <DependentUpon>201503090908177_createCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507011140152_rel.cs" />
+    <Compile Include="Migrations\201507011140152_rel.Designer.cs">
+      <DependentUpon>201507011140152_rel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />
@@ -95,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503090908177_createCustomer.resx">
       <DependentUpon>201503090908177_createCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507011140152_rel.resx">
+      <DependentUpon>201507011140152_rel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

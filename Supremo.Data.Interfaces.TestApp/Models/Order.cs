@@ -13,7 +13,7 @@ namespace Supremo.Data.Interfaces.TestApp.Models
     public class Order : TrackedEntity
     {
         public string Name { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         public virtual ICollection<OrderItem> Items { get; set; }
         public virtual Customer Customer { get; set; }
         public int? CustomerId { get; set; }

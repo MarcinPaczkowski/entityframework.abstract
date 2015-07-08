@@ -14,6 +14,9 @@ namespace Supremo.Data.Interfaces.Models
         protected abstract string GetCurrentUserId();
         protected abstract List<AssemblyName> GetModelMappingAssemblyNames();
 
+        public SupremoDbContext() : base() {}
+        public SupremoDbContext(string connectionName) : base(connectionName) { }
+
         public override int SaveChanges()
         {
             var currentUserId = GetCurrentUserId();

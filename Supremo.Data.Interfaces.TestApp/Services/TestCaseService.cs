@@ -12,7 +12,8 @@ namespace Supremo.Data.Interfaces.TestApp.Services
 {
     internal class TestCaseService
     {
-        private readonly IDbContextScopeFactory _dbContextScopeFactory;
+        [Inject]
+        public IDbContextScopeFactory DbContextScopeFactory { private get; set; }
         [Inject]
         public CustomerRepository CustomerRepository { private get; set; }
         [Inject]
@@ -22,8 +23,20 @@ namespace Supremo.Data.Interfaces.TestApp.Services
 
         internal void DoTests()
         {
-            var order = OrderRepository.GetById(1);
-            var fullOrder = OrderRepository.GetById(1, new List<string> {"Items", "Customer"});
+            var order = new Order { Name = "lama", Customer = new Customer { Name = "heheszka" }, 
+                Items = new List<OrderItem> { new OrderItem {Code = "Test", Value = 2 } } };
+            var order2 = new Order { Name = "lama2", Customer = new Customer { Name = "heheszka2" },
+                                     Items = new List<OrderItem> { new OrderItem { Code = "Test", Value = 2 } }
+            };
+
+            using (var session = DbContextScopeFactory.Create())
+            {
+                OrderRepository.Add(order);
+                OrderRepository.Add(order2, new HashSet<string> { "Customer" });
+                session.SaveChanges();
+                var orders = OrderRepository.GetAll(new List<string> { "Customer" });
+            }
+
         }
     }
 }

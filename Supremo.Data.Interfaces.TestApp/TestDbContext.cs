@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Supremo.Data.Interfaces.TestApp
 {
-    internal class TestDbContext : SupremoDbContext
+    public class TestDbContext : SupremoDbContext
     {
         public TestDbContext() : base()
         {

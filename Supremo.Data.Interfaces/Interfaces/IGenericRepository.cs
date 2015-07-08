@@ -14,8 +14,9 @@ namespace Supremo.Data.Interfaces.Interfaces
         IEnumerable<T> GetAll(List<string> include = null);
         T GetById(int id, List<string> include = null);
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate, List<string> include = null);
-        T Add(T entity);
+        T Add(T entity, HashSet<string> includedEntities = null);
         T Edit(T entity);
         void Delete(T entity);
+        void Delete(int id);
     }
 }
