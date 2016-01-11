@@ -67,6 +67,7 @@
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\EntityMapping.cs" />
     <Compile Include="Models\EntityMappingConfig.cs" />
+    <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\SupremoDbContext.cs" />
     <Compile Include="Models\TrackedEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -36,17 +36,32 @@ namespace Supremo.Data.Interfaces.Repositories
 			_ambientDbContextLocator = ambientDbContextLocator;
 		}
 
-        public IEnumerable<T> GetAll(List<string> include = null)
+        public IEnumerable<T> GetAll()
         {
             IQueryable<T> items = _dbSet;
-
-            if (include != null)
-            {
-                foreach (var includePath in include)
-                    items = items.Include(includePath);
-            }
-
             return items.AsEnumerable<T>();
+        }
+
+        public IEnumerable<T> GetAll(List<string> include)
+        {
+            IQueryable<T> query = _dbSet;
+            query = GetInculded(query, include);
+            return query.AsEnumerable<T>();
+        }
+
+        public IEnumerable<T> GetAll(PageInfo pageInfo)
+        {
+            IQueryable<T> query = _dbSet;
+            query = GetPaged(query, pageInfo);
+            return query.AsEnumerable<T>();
+        }
+
+        public IEnumerable<T> GetAll(List<string> include, PageInfo pageInfo)
+        {
+            IQueryable<T> query = _dbSet;
+            query = GetInculded(query, include);
+            query = GetPaged(query, pageInfo);
+            return query.AsEnumerable<T>();
         }
 
         public virtual T GetById(int id, List<string> include = null)
@@ -69,16 +84,31 @@ namespace Supremo.Data.Interfaces.Repositories
                 return entity;
         }
 
-        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate, List<string> include = null)
+        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> items = _dbSet.Where(predicate);
+            return items.AsEnumerable<T>();
+        }
 
-            if (include != null)
-            {
-                foreach (var includePath in include)
-                    items = items.Include(includePath);
-            }
+        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate, List<string> include)
+        {
+            IQueryable<T> items = _dbSet.Where(predicate);
+            items = GetInculded(items, include);
+            return items.AsEnumerable<T>();
+        }
 
+        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate, PageInfo pageInfo)
+        {
+            IQueryable<T> items = _dbSet.Where(predicate);
+            items = GetPaged(items, pageInfo);
+            return items.AsEnumerable<T>();
+        }
+
+        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate, List<string> include, PageInfo pageInfo)
+        {
+            IQueryable<T> items = _dbSet.Where(predicate);
+            items = GetInculded(items, include);
+            items = GetPaged(items, pageInfo);
             return items.AsEnumerable<T>();
         }
 
@@ -148,6 +178,23 @@ namespace Supremo.Data.Interfaces.Repositories
                     }
                 }
             }
+        }
+
+        private IQueryable<T> GetInculded(IQueryable<T> query, List<string> include)
+        {
+            if (include != null)
+            {
+                foreach (var includePath in include)
+                    query = query.Include(includePath);
+            }
+            return query;
+        }
+
+        private IQueryable<T> GetPaged(IQueryable<T> query, PageInfo pageInfo)
+        {
+            if(pageInfo != null)
+                query.Skip(pageInfo.CurrentPageNumber * pageInfo.ItemsPerPage).Take(pageInfo.ItemsPerPage);
+            return query;
         }
     }
 }

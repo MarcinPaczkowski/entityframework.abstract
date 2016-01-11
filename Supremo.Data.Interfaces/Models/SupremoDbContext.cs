@@ -50,6 +50,7 @@ namespace Supremo.Data.Interfaces.Models
         {
             EntityMappingConfig.CreateMappings(modelBuilder, GetModelMappingAssemblyNames());
             base.OnModelCreating(modelBuilder);
+
         }
     }
 }
